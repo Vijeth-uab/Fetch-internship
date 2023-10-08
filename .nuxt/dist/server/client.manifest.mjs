@@ -1,1 +1,1 @@
-export { default } from "file:///Users/vijeth/Projects/Fetch/Fetch-internship/node_modules/@nuxt/vite-builder/dist/runtime/client.manifest.mjs"
+export { default } from "file:///Users/vijeth/Projects/Fetch-internship/node_modules/@nuxt/vite-builder/dist/runtime/client.manifest.mjs"

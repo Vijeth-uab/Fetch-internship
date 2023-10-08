@@ -6,7 +6,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
     ">
     <h1 style="font-size: 24px; color: white">
       Welcome to the gallery of dogs.
@@ -16,7 +16,7 @@
     <div class="flex justify-center mb-5">
       <Listbox as="div" v-model="selected">
         <ListboxLabel class="block text-sm font-medium leading-6 text-gray-900"
-          >Select a dog breed you would like to have a look</ListboxLabel
+          >Select dog breed</ListboxLabel
         >
         <div class="relative">
           <ListboxButton
@@ -42,25 +42,25 @@
               class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
               <ListboxOption
                 as="template"
-                v-for="dogs in dogsList"
-                :key="dogs.breedName"
-                :value="dogs"
+                v-for="person in dogsList"
+                :key="person.breedName"
+                :value="person"
                 v-slot="{ active, selected }">
                 <li
                   :class="[
                     active ? 'bg-indigo-600 text-white' : 'text-gray-900',
                     'relative cursor-default select-none py-2 pl-3 pr-9',
                   ]"
-                  @click="fetchDogs(dogs.breedName)">
+                  @click="fetchDogs">
                   <div class="flex">
                     <span
                       :class="[
                         selected ? 'font-semibold' : 'font-normal',
                         'truncate',
                       ]"
-                      >{{ dogs.breedName }}</span
+                      >{{ person.breedName }}</span
                     >
-                    <!-- <span :class="[active ? 'text-indigo-200' : 'text-gray-500', 'ml-2 truncate']">{{ dogs.dogBreedName }}</span> -->
+                    <!-- <span :class="[active ? 'text-indigo-200' : 'text-gray-500', 'ml-2 truncate']">{{ person.dogBreedName }}</span> -->
                   </div>
 
                   <span
@@ -78,43 +78,23 @@
         </div>
       </Listbox>
     </div>
-    <h1>Scroll down to have a look at all dog breeds you have picked.</h1>
-    <div class="-m-1 flex flex-wrap md:-m-2">
-      <!-- Outer loop to iterate over multiple arrays -->
-      <div
-        v-for="(imageUrlsArray, arrayIndex) in imageUrlsList"
-        :key="arrayIndex"
-        class="w-full">
-        <div
-          class="bg-gray-400"
-          style="
-            height: 50px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: 20px;
-          ">
-          <h1 style="font-size: 24px; color: white" class="capitalize">
-            {{ selectedList[arrayIndex] }}
-          </h1>
-        </div>
 
-        <!-- Inner loop to iterate over image URLs within each array -->
-        <div class="bg-gray-400 flex flex-wrap">
-          <div
-            v-for="(imageUrl, index) in imageUrlsArray"
-            :key="index"
-            class="w-1/4 p-1 md:p-2"
-            style="width: 25%">
-            <div class="relative" style="width: 100%; height: 300px">
-              <div class="rounded-lg p-4 h-full">
-                <img
-                  alt="gallery"
-                  class="absolute inset-0 h-full w-full rounded-lg object-cover object-center"
-                  :src="imageUrl" />
-              </div>
-            </div>
-          </div>
+    <div class="flex justify-center mb-10 capitalize">
+      <h1>
+        <b>{{ selected.breedName }}</b> breed's images are displayed
+      </h1>
+    </div>
+    <div class="-m-1 flex flex-wrap md:-m-2">
+      <div
+        class="flex w-1/4 flex-wrap"
+        v-for="(imageUrl, index) in imageUrlsArray"
+        :key="index">
+        <div class="w-full p-1 md:p-2">
+          <img
+            alt="gallery"
+            class="block h-full w-full rounded-lg object-cover object-center"
+            :src="imageUrl"
+            style="max-width: 300px; max-height: 300px" />
         </div>
       </div>
     </div>
@@ -134,16 +114,14 @@ import { CheckIcon, ChevronUpDownIcon } from "@heroicons/vue/20/solid";
 
 onMounted(() => {
   fetchDogsList();
-  fetchDogs("airedale");
+  fetchDogs();
 });
 
-const imageUrlsList = ref([]);
+const imageUrls = ref("");
 const imageUrlsArray = ref([]);
 const dogsList = ref([]);
-const count = ref();
 
 const selected = ref({ breedName: "airedale", dogBreedName: "@affenpinscher" });
-const selectedList = ref([]);
 
 async function fetchDogsList() {
   const response = await fetch("https://dog.ceo/api/breeds/list/all");
@@ -158,29 +136,25 @@ async function fetchDogsList() {
   console.log(dogsList.value[0]);
 }
 
-async function fetchDogs(breed) {
-  console.log("Fetch Dogs--------", breed);
-  selectedList.value.push(breed);
-
-  console.log("Fetch Dogs selectedList--------", selectedList.value);
-
-  await fetch(`https://dog.ceo/api/breed/${breed}/images/random/20`)
+async function fetchDogs() {
+  await fetch(
+    `https://dog.ceo/api/breed/${selected.value.breedName}/images/random/20`
+  )
     .then((response) => {
       if (response.status === 301) {
         const newURL = response.headers.get("Location");
         return fetch(newURL);
       } else {
-        return response.json();
+        return response.json(); // Convert the response to JSON
       }
     })
     .then((jsonData) => {
       console.log("jsonData.message", jsonData.message);
-      imageUrlsList.value.push(jsonData.message);
+      imageUrls.value = jsonData.message;
       imageUrlsArray.value = jsonData.message;
     })
     .catch((error) => {
       console.error("Error:", error);
     });
-  console.log("imageUrlsList.value=====================", imageUrlsList.value);
 }
 </script>

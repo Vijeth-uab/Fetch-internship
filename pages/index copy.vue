@@ -6,7 +6,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
     ">
     <h1 style="font-size: 24px; color: white">
       Welcome to the gallery of dogs.
@@ -16,7 +16,7 @@
     <div class="flex justify-center mb-5">
       <Listbox as="div" v-model="selected">
         <ListboxLabel class="block text-sm font-medium leading-6 text-gray-900"
-          >Select a dog breed you would like to have a look</ListboxLabel
+          >Select dog breed</ListboxLabel
         >
         <div class="relative">
           <ListboxButton
@@ -78,43 +78,36 @@
         </div>
       </Listbox>
     </div>
-    <h1>Scroll down to have a look at all dog breeds you have picked.</h1>
-    <div class="-m-1 flex flex-wrap md:-m-2">
-      <!-- Outer loop to iterate over multiple arrays -->
-      <div
-        v-for="(imageUrlsArray, arrayIndex) in imageUrlsList"
-        :key="arrayIndex"
-        class="w-full">
-        <div
-          class="bg-gray-400"
-          style="
-            height: 50px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: 20px;
-          ">
-          <h1 style="font-size: 24px; color: white" class="capitalize">
-            {{ selectedList[arrayIndex] }}
-          </h1>
-        </div>
 
-        <!-- Inner loop to iterate over image URLs within each array -->
-        <div class="bg-gray-400 flex flex-wrap">
-          <div
-            v-for="(imageUrl, index) in imageUrlsArray"
-            :key="index"
-            class="w-1/4 p-1 md:p-2"
-            style="width: 25%">
-            <div class="relative" style="width: 100%; height: 300px">
-              <div class="rounded-lg p-4 h-full">
-                <img
-                  alt="gallery"
-                  class="absolute inset-0 h-full w-full rounded-lg object-cover object-center"
-                  :src="imageUrl" />
-              </div>
-            </div>
-          </div>
+    <div class="flex justify-center mb-10 capitalize">
+      <h1>
+        <b>{{ selected.breedName }}</b> breed's images are displayed
+      </h1>
+    </div>
+    <div class="-m-1 flex flex-wrap md:-m-2">
+      <div
+        class="flex w-1/4 flex-wrap"
+        v-for="(imageUrl, index) in imageUrlsArray"
+        :key="index">
+        <div class="w-full p-1 md:p-2">
+          <img
+            alt="gallery"
+            class="block h-full w-full rounded-lg object-cover object-center"
+            :src="imageUrl"
+            style="max-width: 300px; max-height: 300px" />
+        </div>
+      </div>
+      <h1>First section ends here</h1>
+      <div
+        class="flex w-1/4 flex-wrap"
+        v-for="(imageUrl, index) in imageUrlsArray"
+        :key="index">
+        <div class="w-full p-1 md:p-2">
+          <img
+            alt="gallery"
+            class="block h-full w-full rounded-lg object-cover object-center"
+            :src="imageUrl"
+            style="max-width: 300px; max-height: 300px" />
         </div>
       </div>
     </div>

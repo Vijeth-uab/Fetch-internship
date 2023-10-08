@@ -7,12 +7,12 @@
     "module": true,
     "resourceType": "script"
   },
-  "/Users/vijeth/Projects/Fetch/Fetch-internship/node_modules/nuxt/dist/app/entry.js": {
+  "/Users/vijeth/Projects/Fetch-internship/node_modules/nuxt/dist/app/entry.js": {
     "resourceType": "script",
     "module": true,
     "prefetch": true,
     "preload": true,
     "isEntry": true,
-    "file": "/Users/vijeth/Projects/Fetch/Fetch-internship/node_modules/nuxt/dist/app/entry.js"
+    "file": "/Users/vijeth/Projects/Fetch-internship/node_modules/nuxt/dist/app/entry.js"
   }
 }
