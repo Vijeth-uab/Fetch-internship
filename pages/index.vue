@@ -79,6 +79,14 @@
       </Listbox>
     </div>
     <h1>Scroll down to have a look at all dog breeds you have picked.</h1>
+    <div
+      v-for="(item, index) in selectedList"
+      :key="index"
+      class="center relative inline-block select-none whitespace-nowrap rounded-lg bg-gray-400 py-2 px-3.5 align-baseline font-sans text-xs font-bold uppercase leading-none text-white"
+      style="margin: 8px">
+      {{ item }}
+    </div>
+
     <div class="-m-1 flex flex-wrap md:-m-2">
       <!-- Outer loop to iterate over multiple arrays -->
       <div
